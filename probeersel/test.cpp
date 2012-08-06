@@ -20,7 +20,7 @@
 static double currentTime (ClockGetTime());
 static GLfloat scale (0.5);
 static Triangle triangle1;
-static Sphere sphere1(20);
+static Sphere sphere1(8);
 
 void handleKeypress(unsigned char key, int x, int y) {
 	switch (key) {
@@ -118,7 +118,7 @@ int main(int argc, char** argv) {
 	glutInitWindowSize(600, 600);
 	glutInitWindowPosition(100, 100);
 	
-	glutCreateWindow("Second test");
+	glutCreateWindow("Asteroids");
 	initRendering();
 
     // get some OpenGL info (Note that we can only do it after initialization or smt)
