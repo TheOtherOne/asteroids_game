@@ -125,7 +125,7 @@ void drawScene() {
 
 }
 
-GLfloat get_rotation(double const dt)
+GLfloat integrate_physics(GLfloat const orientation_old, double const dt)
 // returns the amount of rotation the cube did in 'dt' time
 // note: spinspeed is a global variable
 {
@@ -154,7 +154,11 @@ GLfloat get_rotation(double const dt)
     }
 
     // integrate the spin over dt
-    return spinspeed * dt;
+    GLfloat orientation_new(orientation_old + spinspeed * dt);
+    if (orientation_new > 360.0)
+        orientation_new -= 360.0;
+    return orientation_new;
+
 }
 
 void main_loop(int i)
@@ -164,9 +168,9 @@ void main_loop(int i)
     double dt (newTime-currentTime);  // 'dt' is in seconds
     currentTime = newTime;
 
-    orientation += get_rotation(dt);
-    if (orientation > 360.0)
-        orientation -= 360.0;
+    // get the new state by integrating over time the old state
+    // For now the only state variable is the orientation of the triangle
+    orientation = integrate_physics(orientation, dt);
     glutPostRedisplay();
 	glutTimerFunc(25, main_loop, 0);
 }
@@ -195,7 +199,7 @@ int main(int argc, char** argv) {
 	glutInit(&argc, argv);
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_ALPHA);
-	glutInitWindowSize(400, 400);
+	glutInitWindowSize(600, 600);
 	glutInitWindowPosition(100, 100);
 	
 	glutCreateWindow("Second test");
