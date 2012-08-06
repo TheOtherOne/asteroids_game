@@ -4,9 +4,6 @@
 #include <stdlib.h>
 #include <iostream>
 #include <sys/time.h>
-#include <math.h>
-
-#define PI 3.1415926535898
 
 // function that gets the current time
 double ClockGetTime()

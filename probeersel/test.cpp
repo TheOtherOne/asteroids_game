@@ -10,6 +10,7 @@
 
 #include "Defs.hpp"
 #include "Triangle.cpp"
+#include "Sphere.cpp"
 
 
 
@@ -19,6 +20,7 @@
 static double currentTime (ClockGetTime());
 static GLfloat scale (0.5);
 static Triangle triangle1;
+static Sphere sphere1(20);
 
 void handleKeypress(unsigned char key, int x, int y) {
 	switch (key) {
@@ -67,30 +69,7 @@ void drawScene() {
     glPopMatrix();
 	
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    GLfloat angle;
-    GLfloat radius(60);
-    int segments(100);
-
-	glColor3f(0.0f, 0.0f, 1.0f);
-    glLineWidth(2.0f);
-    glLineStipple(2, 0x3F07);
-    glEnable(GL_LINE_STIPPLE);
-    glBegin(GL_LINE_LOOP);
-        for (int i=0; i < segments; ++i)
-        {
-            angle = 2*PI*i/segments;
-            glVertex2f(radius*cos(angle), radius*sin(angle));
-        }
-    glEnd();
-    glDisable(GL_LINE_STIPPLE);
-
-    glPointSize(16.0f);
-	glColor3f(0.0f, 1.0f, 1.0f);
-    glBegin(GL_POINTS);
-        glVertex2f(-50, -70);
-        glVertex2f(-30, -70);
-        glVertex2f(-10, -70);
-    glEnd();
+    sphere1.draw();
 
     glutSwapBuffers();      // OpenGL commands issued after the swap will only be rendered after the swap took place
 	glFlush();              // Force the excecution of the commands (not sure this is needed when using SwapBuffers)

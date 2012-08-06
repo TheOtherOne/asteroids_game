@@ -2,7 +2,7 @@ CC = g++-4.4
 CFLAGS = -Wall
 PROG = test
 
-SRCS = test.cpp Triangle.cpp Defs.hpp
+SRCS = test.cpp Triangle.cpp Sphere.cpp Defs.hpp
 
 LIBS = -lglut -lGLU -lrt -lm
 
