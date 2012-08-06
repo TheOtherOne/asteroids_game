@@ -12,6 +12,8 @@
 
 // Stuff that should go into some include
 #define PI 3.1415926535898
+
+// function that gets the current time
 double ClockGetTime()
 {
     timespec ts;
@@ -19,23 +21,95 @@ double ClockGetTime()
     return (double)ts.tv_sec + (double)ts.tv_nsec / 1000000000;
 }
 
-
 typedef enum ForceType {TO_state1, TO_state2} ForceType;
-static GLfloat decceleration(800.0);    // in degrees per second^2
-static GLfloat acceleration(800.0);
 
-// defining the two spin states
-static GLfloat state1(0.0);             // in degrees per second
-static GLfloat state2(180.0);
 
-// defining the initial state of the system
-static GLfloat spinspeed(state1);
-static ForceType force(TO_state1);
+// Class for a triangle-like thing that can rotate
+class Triangle
+{
+
+protected:
+    // defining the acceleration and decelleration constants
+    static const GLfloat decceleration = 800.0;    // in degrees per second^2
+    static const GLfloat acceleration = 800.0;
+   
+    // defining the two spin states
+    static const GLfloat state1 = 0.0;             // in degrees per second
+    static const GLfloat state2 = 180.0;
+
+public:
+    void set_force(ForceType const force)
+    {
+        _force = force;
+    }
+
+    void propagate(double const dt)
+    // returns the amount of rotation the cube did in 'dt' time
+    // note: spinspeed is a global variable
+    {
+        // First check if the system is in one of the stable states
+        if (_spinspeed <= state1 && _force == TO_state1)
+        {
+            _spinspeed = state1;     // make sure that the spin is really in the state
+        }
+        else if (_spinspeed >= state2 && _force == TO_state2)
+        {
+            _spinspeed = state2;
+        }
+
+        // If not in one of the stable states:
+        else if (_force == TO_state1)
+        {
+            _spinspeed -= decceleration* dt;  // The rotational speed (spin) needs to be propagated
+        }
+        else if (_force == TO_state2)
+        {
+            _spinspeed += acceleration* dt;
+        }
+        else
+        {
+            throw 1;        // never get here
+        }
+
+        // integrate the spin over dt
+        _orientation += _spinspeed * dt;
+        if (_orientation > 360.0)
+            _orientation -= 360.0;
+    }
+
+    void draw()
+    {
+        glRotatef(_orientation, 0.0, 0.0, 1.0);
+
+    //    glRectf(-25.0, -25.0, 25.0, 25.0);  // draw a rectangle
+	    glBegin(GL_POLYGON);
+    	    glColor3f(1.0f, 1.0f, 1.0f);
+    	    glVertex3f(-25, -25, 0.0);
+        	glVertex3f(25, -25, 0.0);
+	        glColor3f(1.0f, 0.0f, 0.0f);
+        	glVertex3f(35, 35, 0.0);
+	        glColor3f(1.0f, 1.0f, 1.0f);
+    	    glVertex3f(-25, 25, 0.0);
+    	glEnd();
+    }
+
+    // The constructor
+    Triangle() : _orientation(0), _spinspeed(state1), _force(TO_state1) {};
+
+private:
+    // defining the state variables and the initial state
+    GLfloat     _orientation;
+    GLfloat     _spinspeed;
+    ForceType   _force;
+};
+
+
+/////////////////////////////////////////////////////////
+// Main stuff
+
 static double currentTime (ClockGetTime());
-
-static GLfloat orientation (0.0);
 static GLfloat scale (0.5);
-
+static Triangle triangle1;
 
 void handleKeypress(unsigned char key, int x, int y) {
 	switch (key) {
@@ -80,18 +154,7 @@ void drawScene() {
 
     glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE);
     glPushMatrix();
-    glRotatef(orientation, 0.0, 0.0, 1.0);
-
-//    glRectf(-25.0, -25.0, 25.0, 25.0);  // draw a rectangle
-	glBegin(GL_POLYGON);
-    	glColor3f(1.0f, 1.0f, 1.0f);
-	    glVertex3f(-25, -25, 0.0);
-    	glVertex3f(25, -25, 0.0);
-	    glColor3f(1.0f, 0.0f, 0.0f);
-    	glVertex3f(35, 35, 0.0);
-	    glColor3f(1.0f, 1.0f, 1.0f);
-    	glVertex3f(-25, 25, 0.0);
-	glEnd();
+    triangle1.draw();
     glPopMatrix();
 	
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -125,41 +188,6 @@ void drawScene() {
 
 }
 
-GLfloat integrate_physics(GLfloat const orientation_old, double const dt)
-// returns the amount of rotation the cube did in 'dt' time
-// note: spinspeed is a global variable
-{
-    // First check if the system is in one of the stable states
-    if (spinspeed <= state1 && force == TO_state1)
-    {
-        spinspeed = state1;     // make sure that the spin is really in the state
-    }
-    else if (spinspeed >= state2 && force == TO_state2)
-    {
-        spinspeed = state2;
-    }
-
-    // If not in one of the stable states:
-    else if (force == TO_state1)
-    {
-        spinspeed -= decceleration* dt;  // The rotational speed (spin) needs to be propagated
-    }
-    else if (force == TO_state2)
-    {
-        spinspeed += acceleration* dt;
-    }
-    else
-    {
-        throw 1;        // never get here
-    }
-
-    // integrate the spin over dt
-    GLfloat orientation_new(orientation_old + spinspeed * dt);
-    if (orientation_new > 360.0)
-        orientation_new -= 360.0;
-    return orientation_new;
-
-}
 
 void main_loop(int i)
 {
@@ -170,7 +198,7 @@ void main_loop(int i)
 
     // get the new state by integrating over time the old state
     // For now the only state variable is the orientation of the triangle
-    orientation = integrate_physics(orientation, dt);
+    triangle1.propagate(dt);
     glutPostRedisplay();
 	glutTimerFunc(25, main_loop, 0);
 }
@@ -181,11 +209,11 @@ void mouse(int button, int state, int x, int y)
     {
         case GLUT_LEFT_BUTTON:
             if (state == GLUT_DOWN)
-                force = TO_state1;  // The pressing of the buttons just modifies the state of the force
+                triangle1.set_force(TO_state1);  // The pressing of the buttons just modifies the state of the force
             break;
         case GLUT_RIGHT_BUTTON:
             if (state == GLUT_DOWN)
-                force = TO_state2;
+                triangle1.set_force(TO_state2);
             break;
 //        case GLUT_MIDDLE_BUTTON:
 //            if (state == GLUT_DOWN)
