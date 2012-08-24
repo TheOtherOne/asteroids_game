@@ -20,7 +20,8 @@
 static double currentTime (ClockGetTime());
 static GLfloat scale (0.5);
 static Triangle triangle1;
-static Sphere sphere1(8);
+static Sphere sphere1(50, 0, 0, 20);
+static Sphere sphere2(0, 0, 0, 20);
 
 void handleKeypress(unsigned char key, int x, int y) {
 	switch (key) {
@@ -55,21 +56,21 @@ void handleResize(int w, int h) {
 //    glOrtho(-scale*(GLfloat)w/2.0, scale*(GLfloat)w/2.0, -scale*(GLfloat)h/2.0, scale*(GLfloat)h/2.0, -1.0, 1.0);
     gluOrtho2D(-scale*(GLfloat)w/2.0, scale*(GLfloat)w/2.0, -scale*(GLfloat)h/2.0, scale*(GLfloat)h/2.0);
 
-    // set the model transformation matrix  WHY?
+    // set the model transformation matrix (default)
 	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
 }
 
 void drawScene() {
 	glClear(GL_COLOR_BUFFER_BIT);
+    // assume that the current matrix is the MODELVIEW matrix
+	glLoadIdentity();
 
     glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE);
-    glPushMatrix();
     triangle1.draw();
-    glPopMatrix();
 	
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     sphere1.draw();
+    sphere2.draw();
 
     glutSwapBuffers();      // OpenGL commands issued after the swap will only be rendered after the swap took place
 	glFlush();              // Force the excecution of the commands (not sure this is needed when using SwapBuffers)
