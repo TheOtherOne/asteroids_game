@@ -28,6 +28,9 @@ public:
     // returns the amount of rotation the cube did in 'dt' time
     // note: spinspeed is a global variable
     {
+
+        _pos_x += _movespeed * dt;
+
         // First check if the system is in one of the stable states
         if (_spinspeed <= state1 && _force == TO_state1)
         {
@@ -60,6 +63,8 @@ public:
 
     void draw()
     {
+        glPushMatrix();
+        glTranslatef(_pos_x, _pos_y, (GLfloat)0.0);
         glRotatef(_orientation, 0.0, 0.0, 1.0);
 
     //    glRectf(-25.0, -25.0, 25.0, 25.0);  // draw a rectangle
@@ -72,14 +77,18 @@ public:
             glColor3f(1.0f, 1.0f, 1.0f);
             glVertex3f(-25, 25, 0.0);
         glEnd();
+        glPopMatrix();
     }
 
     // The constructor
-    Triangle() : _orientation(0), _spinspeed(state1), _force(TO_state1) {};
+    Triangle() : _pos_x(0.0), _pos_y(0.0), _orientation(0),
+                 _movespeed(10.0), _spinspeed(state1), _force(TO_state1) {};
 
 private:
     // defining the state variables and the initial state
+    GLfloat     _pos_x, _pos_y;
     GLfloat     _orientation;
+    GLfloat     _movespeed;
     GLfloat     _spinspeed;
     ForceType   _force;
 };
