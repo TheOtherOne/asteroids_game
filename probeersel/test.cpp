@@ -9,7 +9,7 @@
 #endif
 
 #include "Defs.hpp"
-#include "Triangle.cpp"
+#include "Ship.hpp"
 #include "Sphere.cpp"
 
 
@@ -19,7 +19,7 @@
 
 static double currentTime (ClockGetTime());
 static GLfloat scale (0.5);
-static Triangle triangle1;
+static Ship triangle1;
 static Sphere sphere1(50, 0, 0, 20);
 static Sphere sphere2(0, 0, 0, 20);
 
@@ -98,15 +98,16 @@ void mouse(int button, int state, int x, int y)
     {
         case GLUT_LEFT_BUTTON:
             if (state == GLUT_DOWN)
-                triangle1.set_force(TO_state1);  // The pressing of the buttons just modifies the state of the force
+                triangle1.input(Left);  // The pressing of the buttons just modifies the state of the force
             break;
         case GLUT_RIGHT_BUTTON:
             if (state == GLUT_DOWN)
-                triangle1.set_force(TO_state2);
+                triangle1.input(Right);
             break;
-//        case GLUT_MIDDLE_BUTTON:
-//            if (state == GLUT_DOWN)
-//            break;
+        case GLUT_MIDDLE_BUTTON:
+            if (state == GLUT_DOWN)
+                triangle1.input(Forward);
+            break;
         default:
             break;
     }
