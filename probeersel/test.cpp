@@ -98,18 +98,41 @@ void mouse(int button, int state, int x, int y)
     {
         case GLUT_LEFT_BUTTON:
             if (state == GLUT_DOWN)
+            {
                 triangle1.input(Left);  // The pressing of the buttons just modifies the state of the force
+//                std::cout << "left" << std::endl;
+            }
+            else
+            {
+                triangle1.input(Neutral);
+//                std::cout << "Neutral" << std::endl;
+            }
             break;
         case GLUT_RIGHT_BUTTON:
             if (state == GLUT_DOWN)
+            {
                 triangle1.input(Right);
+//                std::cout << "Right" << std::endl;
+            }
+            else
+            {
+                triangle1.input(Neutral);
+//                std::cout << "Neutral" << std::endl;
+            }
             break;
         case GLUT_MIDDLE_BUTTON:
             if (state == GLUT_DOWN)
+            {
                 triangle1.input(Forward);
+//                std::cout << "Forward" << std::endl;
+            }
+            else
+            {
+                triangle1.input(Neutral);
+//                std::cout << "Neutral" << std::endl;
+            }
             break;
         default:
-                triangle1.input(Neutral);
             break;
     }
 }
