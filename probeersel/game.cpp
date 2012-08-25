@@ -22,9 +22,11 @@ static double currentTime (ClockGetTime());
 static GLfloat scale (0.5);
 static PhysicsWorld universe(300.0, 300.0);
 
-static Ship triangle1(&universe);
+static Ship triangle1(&universe, 150, 150, 0.0, 0.0, 0.0);
 static Rock sphere1(&universe, 150, 50, 0.0, 10, 0.0, 20);
-static Rock sphere2(&universe, 150, 150, 0.0, 20, 50.0, 10);
+static Rock sphere2(&universe, 150, 150, 90.0, 20, 0.0, 10);
+static Rock sphere3(&universe, 150, 150, -68.0, 30, 0.0, 15);
+static Rock sphere4(&universe, 250, 250, 200.0, 35, 0.0, 5);
 
 void handleKeypress(unsigned char key, int x, int y) {
 	switch (key) {
@@ -77,6 +79,8 @@ void drawScene() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     sphere1.draw();
     sphere2.draw();
+    sphere3.draw();
+    sphere4.draw();
 
     glutSwapBuffers();      // OpenGL commands issued after the swap will only be rendered after the swap took place
 	glFlush();              // Force the excecution of the commands (not sure this is needed when using SwapBuffers)
@@ -96,6 +100,8 @@ void main_loop(int i)
     triangle1.propagate(dt);
     sphere1.propagate(dt);
     sphere2.propagate(dt);
+    sphere3.propagate(dt);
+    sphere4.propagate(dt);
     glutPostRedisplay();
 	glutTimerFunc(25, main_loop, 0);
 }
