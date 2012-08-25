@@ -8,7 +8,7 @@ class ShipGraphicsComponent
 {
 
 public:
-    void draw(ShipPhysicsComponent const& pysicsComp) const;
+    void draw(ShipPhysicsComponent const& physicsComp) const;
     // Do whatever you need to to draw the thing
 
     ShipGraphicsComponent();
