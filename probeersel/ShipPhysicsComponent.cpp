@@ -22,19 +22,19 @@ void ShipPhysicsComponent::propagate(double const dt)
     // If not in one of the stable states:
     if (_force == TO_Left)
     {
-        _spinspeed -= acceleration* dt; // The rotational speed (spin) needs to be propagated
+        _spinspeed -= acceleration_spin* dt; // The rotational speed (spin) needs to be propagated
         if (_spinspeed <= -spinspeed_max)
             _spinspeed = -spinspeed_max;        // make sure that the spin is really in the state
     }
     else if (_force == TO_Right)
     {
-        _spinspeed += acceleration* dt;
+        _spinspeed += acceleration_spin* dt;
         if (_spinspeed >= spinspeed_max)
             _spinspeed = spinspeed_max;
     }
     else if (_force == TO_Front)
     {
-        _movespeed += acceleration* dt;
+        _movespeed += acceleration_move* dt;
         if (_movespeed >= movespeed_max)
             _movespeed = movespeed_max;
     }
@@ -44,12 +44,12 @@ void ShipPhysicsComponent::propagate(double const dt)
     GLfloat spinspeed_size = fabs(_spinspeed);
     GLfloat spinspeed_sign = (_spinspeed >= 0.0) ? 1.0 : -1.0;
 
-    spinspeed_size -= decceleration* dt; // decay the rotational speed
+    spinspeed_size -= decceleration_spin* dt; // decay the rotational speed
     if (spinspeed_size <= state0)
         spinspeed_size = state0;        // make sure that the spin is really in the state
     _spinspeed = spinspeed_sign * spinspeed_size;
 
-    _movespeed -= decceleration* dt;
+    _movespeed -= decceleration_move* dt;
     if (_movespeed <= state0)
         _movespeed = state0;
 

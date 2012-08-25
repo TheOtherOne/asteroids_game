@@ -6,13 +6,15 @@
 typedef enum ForceType {TO_Left, TO_Right, TO_Front, None} ForceType;
 
 // defining the acceleration and decelleration constants
-static const GLfloat acceleration =  800.0;    // in degrees per second^2
-static const GLfloat decceleration = 100.0;
+static const GLfloat acceleration_spin =  200.0;    // in degrees per second^2
+static const GLfloat decceleration_spin = 20.0;
+static const GLfloat acceleration_move =  50.0;    // in meters(?) per second^2
+static const GLfloat decceleration_move = 10.0;
 
 // defining the two spin states
 static const GLfloat state0 = 0.0;
-static const GLfloat spinspeed_max  = 180.0;
-static const GLfloat movespeed_max  = 10.0;
+static const GLfloat spinspeed_max  = 200.0;
+static const GLfloat movespeed_max  = 100.0;
 
 
 class ShipPhysicsComponent
