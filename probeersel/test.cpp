@@ -10,7 +10,7 @@
 
 #include "Defs.hpp"
 #include "Ship.hpp"
-#include "Sphere.cpp"
+#include "Rock.hpp"
 #include "PhysicsWorld.hpp"
 
 
@@ -21,9 +21,10 @@
 static double currentTime (ClockGetTime());
 static GLfloat scale (0.5);
 static PhysicsWorld universe(300.0, 300.0);
+
 static Ship triangle1(&universe);
-static Sphere sphere1(150, 100, 0, 20);
-static Sphere sphere2(100, 50, 0, 20);
+static Rock sphere1(&universe, 150, 50, 0.0, 10, 0.0, 20);
+static Rock sphere2(&universe, 150, 150, 0.0, 20, 50.0, 10);
 
 void handleKeypress(unsigned char key, int x, int y) {
 	switch (key) {
@@ -93,6 +94,8 @@ void main_loop(int i)
     // get the new state by integrating over time the old state
     // For now the only state variable is the orientation of the triangle
     triangle1.propagate(dt);
+    sphere1.propagate(dt);
+    sphere2.propagate(dt);
     glutPostRedisplay();
 	glutTimerFunc(25, main_loop, 0);
 }
