@@ -4,7 +4,7 @@
 #include <GL/gl.h>
 #include "ShipGraphicsComponent.hpp"
 
-void ShipGraphicsComponent::draw(ShipPhysicsComponent const& pysicsComp)
+void ShipGraphicsComponent::draw(ShipPhysicsComponent const& pysicsComp) const
 // Do whatever you need to to draw the thing
 {
     glPushMatrix();
