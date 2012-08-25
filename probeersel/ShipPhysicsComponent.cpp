@@ -47,13 +47,13 @@ void ShipPhysicsComponent::propagate(double const dt)
         _orientation -= 360.0;
 
     // adjust position according to orientation and speed
-    _pos_x += _movespeed * sin(2*PI*(_orientation/360.0)) * dt;
-    _pos_y += _movespeed * cos(2*PI*(_orientation/360.0)) * dt;
+    _pos_x += _movespeed * sin(2*PI*(_orientation/-360.0)) * dt;
+    _pos_y += _movespeed * cos(2*PI*(_orientation/-360.0)) * dt;
 }
 
 // constructor
 ShipPhysicsComponent::ShipPhysicsComponent() :
-     _pos_x(0.0), _pos_y(0.0), _orientation(0.0), _movespeed(0.0),
+     _pos_x(0.0), _pos_y(0.0), _orientation(0.0), _movespeed(10.0),
      _spinspeed(0.0), _force(TO_state1) {};
 
 #endif /* ShipPhysicsComponent class */
