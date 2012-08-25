@@ -109,6 +109,7 @@ void mouse(int button, int state, int x, int y)
                 triangle1.input(Forward);
             break;
         default:
+                triangle1.input(Neutral);
             break;
     }
 }
