@@ -64,9 +64,8 @@ void ShipPhysicsComponent::propagate(double const dt)
     _pos_y += _movespeed * cos(2*PI*(_orientation/360.0)) * dt;
 }
 
-// constructor
+// constructors
 ShipPhysicsComponent::ShipPhysicsComponent() :
-     _pos_x(0.0), _pos_y(0.0), _orientation(0.0), _movespeed(20.0),
-     _spinspeed(0.0), _force(None) {};
+    base_class(), _force(None) {};
 
 #endif /* ShipPhysicsComponent class */
