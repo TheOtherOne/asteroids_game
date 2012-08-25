@@ -8,9 +8,13 @@ class PhysicsWorld
 {
 
 public:
-    void apply_boundary(PhysicsComponent* physicsComp);
+    void apply_boundary(PhysicsComponent* physicsComp) const;
     // apply the boudary conditions on the physics component
 
+    void set_size(GLfloat const size_x, GLfloat const size_y);
+
+    // Constructor
+    PhysicsWorld(GLfloat const size_x, GLfloat const size_y);
 private:
     GLfloat _size_x, _size_y;
 };

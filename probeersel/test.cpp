@@ -11,6 +11,7 @@
 #include "Defs.hpp"
 #include "Ship.hpp"
 #include "Sphere.cpp"
+#include "PhysicsWorld.hpp"
 
 
 
@@ -19,9 +20,10 @@
 
 static double currentTime (ClockGetTime());
 static GLfloat scale (0.5);
-static Ship triangle1;
-static Sphere sphere1(50, 0, 0, 20);
-static Sphere sphere2(0, 0, 0, 20);
+static PhysicsWorld universe(300.0, 300.0);
+static Ship triangle1(&universe);
+static Sphere sphere1(150, 100, 0, 20);
+static Sphere sphere2(100, 50, 0, 20);
 
 void handleKeypress(unsigned char key, int x, int y) {
 	switch (key) {
@@ -53,8 +55,11 @@ void handleResize(int w, int h) {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
     // use parallel projection matrix, the parameters denote the clipping box that is used around the scene.
-//    glOrtho(-scale*(GLfloat)w/2.0, scale*(GLfloat)w/2.0, -scale*(GLfloat)h/2.0, scale*(GLfloat)h/2.0, -1.0, 1.0);
-    gluOrtho2D(-scale*(GLfloat)w/2.0, scale*(GLfloat)w/2.0, -scale*(GLfloat)h/2.0, scale*(GLfloat)h/2.0);
+//    gluOrtho2D(-scale*(GLfloat)w/2.0, scale*(GLfloat)w/2.0, -scale*(GLfloat)h/2.0, scale*(GLfloat)h/2.0);
+    gluOrtho2D(0, scale*(GLfloat)w, 0, scale*(GLfloat)h);
+
+    // Change the size of the universe to match the new window size
+    universe.set_size(scale*(GLfloat)w, scale*(GLfloat)h);
 
     // set the model transformation matrix (default)
 	glMatrixMode(GL_MODELVIEW);
@@ -138,6 +143,7 @@ void mouse(int button, int state, int x, int y)
 }
 
 int main(int argc, char** argv) {
+
 	glutInit(&argc, argv);
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_ALPHA);

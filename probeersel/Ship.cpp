@@ -6,8 +6,9 @@
 void Ship::propagate(double const dt)
 {
     _physicsComp.propagate(dt);
+    _physicsWorld->apply_boundary(&_physicsComp);
 }
-void Ship::draw()
+void Ship::draw() const
 {
     _graphicsComp.draw(_physicsComp);
 }
@@ -30,7 +31,9 @@ void Ship::input(ShipInputType const input)
     }
 }
 // Constructor
-Ship::Ship() : _physicsComp(ShipPhysicsComponent()),
-               _graphicsComp(ShipGraphicsComponent()) {}
+Ship::Ship(PhysicsWorld* const physicsWorld) :
+    _physicsComp(ShipPhysicsComponent()),
+    _graphicsComp(ShipGraphicsComponent()),
+    _physicsWorld(physicsWorld) {}
 
 #endif /* Ship class */
