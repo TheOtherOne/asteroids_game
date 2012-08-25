@@ -4,7 +4,7 @@
 #include "ShipPhysicsComponent.hpp"
 #include "ShipGraphicsComponent.hpp"
 
-typedef enum ShipInputType {Left, Right, Forward, Shoot} ShipInputType;
+typedef enum ShipInputType {Left, Right, Forward, Neutral, Shoot} ShipInputType;
 
 class Ship
 {
