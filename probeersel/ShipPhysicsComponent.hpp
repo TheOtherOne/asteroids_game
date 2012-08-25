@@ -33,8 +33,10 @@ public:
     void set_force(ForceType const force);
     // this sets the acting force on the object
 
-    ShipPhysicsComponent();
     // Constructor
+    ShipPhysicsComponent();
+    ShipPhysicsComponent(GLfloat const pos_x, GLfloat const pos_y, GLfloat const orientation,
+                         GLfloat const movespeed, GLfloat const spinspeed);
 
 // Member variables
 private:

@@ -68,4 +68,9 @@ void ShipPhysicsComponent::propagate(double const dt)
 ShipPhysicsComponent::ShipPhysicsComponent() :
     base_class(), _force(None) {};
 
+ShipPhysicsComponent::ShipPhysicsComponent( GLfloat const pos_x, GLfloat const pos_y,
+                                            GLfloat const orientation,
+                                            GLfloat const movespeed, GLfloat const spinspeed) :
+    base_class(pos_x, pos_y, orientation, movespeed, spinspeed), _force(None) {};
+
 #endif /* ShipPhysicsComponent class */
