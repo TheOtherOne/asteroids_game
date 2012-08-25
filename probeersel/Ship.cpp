@@ -30,10 +30,16 @@ void Ship::input(ShipInputType const input)
             break;
     }
 }
-// Constructor
+// Constructors
 Ship::Ship(PhysicsWorld* const physicsWorld) :
     _physicsComp(ShipPhysicsComponent()),
     _graphicsComp(ShipGraphicsComponent()),
     _physicsWorld(physicsWorld) {}
 
+Ship::Ship( PhysicsWorld* const physicsWorld,
+            GLfloat const pos_x, GLfloat const pos_y, GLfloat const orientation,
+            GLfloat const movespeed, GLfloat const spinspeed) :
+    _physicsComp(ShipPhysicsComponent(pos_x, pos_y, orientation, movespeed, spinspeed)),
+    _graphicsComp(ShipGraphicsComponent()),
+    _physicsWorld(physicsWorld) {}
 #endif /* Ship class */

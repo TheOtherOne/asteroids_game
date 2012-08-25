@@ -14,8 +14,11 @@ public:
     void draw() const;
     void input(ShipInputType const input);
 
+    // Constructors
     Ship(PhysicsWorld* const physicsWorld);
-    // Constructor
+    Ship(PhysicsWorld* const physicsWorld,
+        GLfloat const pos_x, GLfloat const pos_y, GLfloat const orientation,
+        GLfloat const movespeed, GLfloat const spinspeed);
 
 private:
     ShipPhysicsComponent    _physicsComp;
