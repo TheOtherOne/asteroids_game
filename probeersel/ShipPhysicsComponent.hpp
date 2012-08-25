@@ -3,23 +3,26 @@
 
 #include <GL/gl.h>
 
-typedef enum ForceType {TO_state1, TO_state2} ForceType;
+typedef enum ForceType {TO_Left, TO_Right, TO_Front, None} ForceType;
+
+// defining the acceleration and decelleration constants
+static const GLfloat acceleration =  800.0;    // in degrees per second^2
+static const GLfloat decceleration = 100.0;
+
+// defining the two spin states
+static const GLfloat state0 = 0.0;
+static const GLfloat spinspeed_max  = 180.0;
+static const GLfloat movespeed_max  = 10.0;
+
 
 class ShipPhysicsComponent
 // Class dealing with the physical aspects (position, rotation) of an object
 {
 protected:
-    // defining the acceleration and decelleration constants
-    static const GLfloat decceleration = 800.0;    // in degrees per second^2
-    static const GLfloat acceleration = 800.0;
-
-    // defining the two spin states
-    static const GLfloat state1 = 0.0;             // in degrees per second
-    static const GLfloat state2 = 180.0;
 
 public:
     void set_force(ForceType const force);
-    // this sets the 'intention' of the object
+    // this sets the acting force on the object
 
     void propagate(double const dt);
     // Do basic propagation (integration of speed and spin)

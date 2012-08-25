@@ -11,7 +11,7 @@ void ShipGraphicsComponent::draw(ShipPhysicsComponent const& pysicsComp)
     glTranslatef(pysicsComp._pos_x,
                  pysicsComp._pos_y,
                  (GLfloat)0.0);
-    glRotatef(pysicsComp._orientation, 0.0, 0.0, 1.0);
+    glRotatef(pysicsComp._orientation, 0.0, 0.0, -1.0);
 
 //    glRectf(-25.0, -25.0, 25.0, 25.0);  // draw a rectangle
     glBegin(GL_POLYGON);
